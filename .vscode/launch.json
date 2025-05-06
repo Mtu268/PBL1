@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/tunguyen/Documents/Code/C/PBL1",
+      "program": "/Users/tunguyen/Documents/Code/C/PBL1/build/Debug/outDebug"
+    }
+  ]
+}

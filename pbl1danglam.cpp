@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<stdlib.h>
+#include<string.h>
 #include <conio.h>
 
 #define TRUE 1
@@ -12,7 +12,7 @@ struct Book {
 	char bookName [100] , Author[100], Publisher[100];
 	int publishYear;
 	int used;
-	int status; //Br ï¿½ th? lï¿½ "Book Reserved" (sï¿½ch dang du?c mu?n ho?c d?t tru?c), ho?c m?t bi?n ph? d? dï¿½nh d?u tr?ng thï¿½i nï¿½o dï¿½ trong chuong trï¿½nh (tï¿½y b?n quy d?nh).
+	int status; //Br ó th? là "Book Reserved" (sách dang du?c mu?n ho?c d?t tru?c), ho?c m?t bi?n ph? d? dánh d?u tr?ng thái nào dó trong chuong trình (tùy b?n quy d?nh).
     int Amount;
 } ;
 
@@ -121,15 +121,12 @@ int main() {
 	    	    getch();
 	    	    return 0;
 	    	default : 
-	    	   printf(" Khong co chuc nang nay. \n");
-	    	   break;
-	}
-			
-			printf(" Hay chon chuc nang khac. \n");
-			printf(" Nhap phim bat ki. \n");
-			         getch();
-					  
-	    		       
+	    	    printf(" Khong co chuc nang nay. \n");
+	    	   	printf(" Hay chon chuc nang khac. \n");
+			    printf(" Nhap phim bat ki. \n");
+			    getch();
+	    	    break;
+	}  		       
 		
 	}while (choice != 0);
 	return 0;
@@ -379,13 +376,13 @@ Node delLast( Node head){
 		return delFirst(head);
 	}
 
-    Node k = head;
-	while (k->next->next != NULL){
-		k = k->next;
+    Node p = head;
+	while (p->next->next != NULL){
+		p = p->next;
 	}
-	free(k->next);
+	free(p->next);
 	
-	k->next = NULL;
+	p->next = NULL;
 	
 	return head;
 }
@@ -456,26 +453,24 @@ Node delBookName(Node head){
 	
 	if(head == NULL ||strcmp(strupr(head->data.bookName),strupr(bookname)) == 0){
 		head = delFirst(head);
+		return head;
 	}
-	else {
-		Node p = head;
-		int found = 1;
+	
+	
+	Node p = head;
 		while(p ->next != NULL){
 			if(strcmp(strupr(p->next->data.bookName), strupr(bookname)) == 0){
 				Node tmp = p->next;
 				p->next=tmp->next;
 				free(tmp);
-   	   	        found =0;
-   	   	        break;
+   	   	        return head; //ket thuc som neu da xoa
    	     	} 
    	     	p=p->next;
 		} 
-		if(found){
-			printf("Khong co ten sach nay trong thu vien !!! ");
-		}
-	}
-
-   return head;	
+		
+		
+		printf("khong co ten sach trong thu vien !!!");
+        return head;	
 }
 
 //xoa ten tac gia
@@ -484,43 +479,38 @@ Node delAuthor(Node head){
 	printf("nhap ten tac gia can xoa:");
 	fgets(author,sizeof(author),stdin);
 	author[strlen(author)-1]='\0';
-		int found= 1;
-    if (head == NULL) {
+	
+    if (head == NULL)
+    {
         head = delFirst(head);
-    }else{
-    	while (strcmp(strupr(head->data.Author), strupr(author)) == 0)
+    }
+    else
+    {
+    if(strcmp(strupr(head->data.Author), strupr(author)) == 0) 
+    {
+        while (strcmp(strupr(head->data.Author), strupr(author)) == 0)
                 {
-                
-                     Node temp = head;
-        head = head->next;
-        free(temp);
-        found = 0;
-    
+                    head = head->next;
                 }
     }
-    
-
-	Node p = head;
-
-	while(p->next != NULL){
-		if(strcmp(strupr(head->data.Author),strupr(author))==0){
-			while (strcmp(strupr(head->data.Author), strupr(author)) == 0){
-				Node tmp = p->next;
-				p->next=tmp->next;
-				free(tmp);
-   	   	        found =0;
-   	   	        break;
-			}
-		}
-		p=p->next;
-	}
-	if(found)
-	{
-			printf("Khong co ten tac gia nay trong thu vien !!! ");
-		}
-	
-	
-    return head; 
+    int found = 1;
+    for (Node p = head; p->next != NULL; p = p->next)
+    {
+        if (strcmp(strupr(p->next->data.Author), strupr(author)) == 0)
+        {
+            while(strcmp(strupr(p->next->data.Author), strupr(author)) == 0)
+            {
+                p->next = p->next->next;
+                found = 0;
+            }
+        }
+    }
+    if (found)
+    {
+        printf("Khong co ten tac gia nay trong thu vien !!! ");
+    }
+    }
+    return head;
 
 }
 
@@ -580,7 +570,7 @@ Node del_Book(Node head){
 }
 
 
-// Tï¿½m kiem sï¿½ch theo tï¿½n sï¿½ch
+// Tìm kiem sách theo tên sách
 void findBookName(Node head) {
     char bookname[100];
     printf("Nhap ten sach can tim: \n"); 
@@ -600,7 +590,7 @@ void findBookName(Node head) {
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
 }
 
-// Tï¿½m kiem sï¿½ch theo tï¿½n tï¿½c gia
+// Tìm kiem sách theo tên tác gia
 void findAuthor(Node head) {
     char author[100];
     printf("Nhap ten tac gia can tim: \n");
@@ -620,7 +610,7 @@ void findAuthor(Node head) {
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
 }
 
-// Tï¿½m ki?m sï¿½ch theo nhï¿½ xuat ban
+// Tìm ki?m sách theo nhà xuat ban
 void findPublisher(Node head) {
     char publisher[100];
     printf("Nhap ten nha xuat ban can tim: \n");
@@ -886,40 +876,56 @@ int display_Book(Node head) {
 //muon sach
 Node borrow(Node head){
 	displayAvailable ( head);
-	int BookId;
+	int BookId,Quantity;
 	int found =0;
 	printf("nhap ma so sach can nhan :\n");
 	scanf("%d",&BookId);
-	Node p = head;
-	while (p != NULL){
-		if( p->data.Id == BookId && p->data.Amount > 0 ){
-			p->data.Amount -=1;
-			p->data.used +=1;
-			found = 1;
-			p->data.status +=1;
-			break;
-		}
-		p=p->next;
-	}
+	printf("Nhap so luong sach can muon: ");
+    scanf("%d", &Quantity);
+    
+Node p = head;
+    while (p != NULL) {
+        if (p->data.Id == BookId) {
+            found = 1;
+            if (p->data.Amount >= Quantity) {
+                p->data.Amount -= Quantity;
+                p->data.used += 1;
+                p->data.status += Quantity;
+                printf("Muon sach thanh cong!\n");
+            } else {
+                printf("Khong du sach de muon! Chi con %d cuon.\n", p->data.Amount);
+            }
+            break;
+        }
+        p = p->next;
+    }
 	if(found == 0) printf("Khong tim thay ma so sach nay trong thu vien sach chua cho muon!!! \n");
     return head;
 }
 
 Node giveback(Node head){
-	int BookId;
+	int BookId,Quantity;
 	int found =0;
 	printf("nhap ma so sach can nhan :\n");
 	scanf("%d",&BookId);
-	Node p = head;
-	while (p != NULL){
-		if( p->data.Id == BookId && p->data.status > 0 ){
-			p->data.Amount +=1;
-			found = 1;
-			p->data.status -=1;
-			break;
-		}
-		p=p->next;
-	}
+    printf("Nhap so luong sach can tra: \n ");
+    scanf("%d", &Quantity);
+ Node p = head;
+    while (p != NULL) {
+        if (p->data.Id == BookId) {
+            found = 1;
+            if (p->data.status >= Quantity) {
+                p->data.Amount += Quantity;
+                p->data.status -= Quantity;
+                printf("Tra sach thanh cong!\n");
+            } else {
+                printf("So luong tra vuot qua so luong da muon! Chi co %d cuon dang duoc muon.\n", p->data.status);
+            }
+            break;
+        }
+        p = p->next;
+    }
+
 	if(found == 0) printf("Khong tim thay ma so sach nay trong thu vien sach chua cho muon!!! \n");
     return head;
 }
@@ -989,6 +995,7 @@ Node fixBookName(Node head){
 	int found = 0;
 	printf("nhap ma so sach can nhan :\n");
 	scanf("%d",&BookId);
+	getchar();
 	Node p = head;
 	while (p != NULL){
 		if(p->data.Id == BookId){
@@ -1014,6 +1021,7 @@ Node fixAuthor(Node head){
 	int found = 0;
 	printf("nhap ma so sach can nhan :\n");
 	scanf("%d",&BookId);
+	getchar();
 	Node p = head;
 	while (p != NULL){
 		if(p->data.Id == BookId){
@@ -1039,6 +1047,7 @@ Node fixPublisher(Node head){
 	int found = 0;
 	printf("nhap ma so sach can nhan :\n");
 	scanf("%d",&BookId);
+	getchar();
 	Node p = head;
 	while (p != NULL){
 		if(p->data.Id == BookId){
@@ -1081,30 +1090,7 @@ Node fixPublishYear(Node head){
 	}
 	return head;
 }
-Node fixUsed(Node head){
-	int BookId;
-	int found = 0;
-	printf("nhap ma so sach can nhan :\n");
-	scanf("%d",&BookId);
-	Node p = head;
-	while (p != NULL){
-		if(p->data.Id == BookId){
-			found = 1;
-			break;
-		}
-		p=p->next;
-	}
-	if(found){
-	    int newUsed;
-        printf("Nhap so lan muon moi: \n");
-        scanf("%d", &newUsed);
-        p->data.used = newUsed;
-	}else{
-		printf("khong co ma so do. \n");
-	}
-	return head;
-	
-}
+
 Node fixAmount(Node head){
 	int BookId;
 	int found = 0;
@@ -1134,14 +1120,14 @@ Node fix_Book(Node head){
 	int choice;
 	while (TRUE){
 		system("cls");
+		displayall( head);
 		printf("\n -*-*-*-*-*-*-*-*-*-*Sua thong tin sach-*-*-*-*-*-*-*-*-*-* \n");
 	    printf("\n 1.Thay doi id. \n");	
 	    printf("\n 2.Thay doi ten sach. \n");
 	    printf("\n 3.Thay doi tac gia. \n");
 	    printf("\n 4.Thay doi nha xuat ban. \n");
 	    printf("\n 5.Thay doi nam xuat ban. \n");
-	    printf("\n 6.Thay doi so luong muon. \n");
-	    printf("\n 7.Thay doi so luong sach. \n");
+	    printf("\n 6.Thay doi so luong sach. \n");
 	    printf("\n 0.Thoat chuc nang. \n");
 	    printf("\n =============================================================================== \n ");
         printf("Nhap lua chon : ");
@@ -1163,9 +1149,6 @@ Node fix_Book(Node head){
 				head = fixPublishYear(head);
 				break;
 			case 6:
-				head = fixUsed(head);
-				break;
-			case 7:
 				head = fixAmount(head);
 				break;
 			case 0:

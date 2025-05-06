@@ -1,0 +1,5 @@
+00001,Toan roi rac,Do Duc Giao,GD Viet Nam,2003,0,10
+00002,SQL Server,Trinh The Tien,Hong Duc,2008,0,10
+00003,Kinh te vi mo,Nguyen Nhu Y,KT TP.Ho Chi Minh,2017,0,10
+00004,BT Toan cao cap,Nguyen Dinh Tri,Giao Duc,2011,0,10
+00005,Dai so giai tich,Pham Phu Mai,Tp.Ho Chi Minh,2007,0,10
